@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import useGlobalHook from 'use-global-hook'
+import './App.css'
+import RegistrationPage from './registration-page/RegistrationPage'
+import { initialState } from './app-state/initial-state'
+import { actions } from './app-state/actions'
+import { userKey } from './shared/user-service'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function ChatPage({ user }) {
+  return <div>{user}</div>
 }
 
-export default App;
+initialState.user = localStorage.getItem(userKey)
+
+const useGlobal = useGlobalHook(React, initialState, actions)
+
+function App() {
+  let shownView
+
+  const [globalState, globalActions] = useGlobal()
+
+  const onRegisterUser = user => {
+    localStorage.setItem(userKey, user)
+    globalActions.registerUser(user)
+  }
+
+  if (globalState.user) {
+    shownView = <ChatPage user={globalState.user} />
+  } else {
+    shownView = <RegistrationPage onRegisterUser={onRegisterUser} />
+  }
+
+  return (
+    <div className="App">
+      <h1>ChatOn</h1>
+      {shownView}
+    </div>
+  )
+}
+
+export default App
