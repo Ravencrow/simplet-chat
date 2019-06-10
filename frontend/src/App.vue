@@ -1,27 +1,40 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <RegisterUser v-if="!appState.user" v-on:user-registered="registerUser"></RegisterUser>
+    <UserProfile v-if="appState.user" v-bind:user="appState.user" v-on:log-out="logOutUser"></UserProfile>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import RegisterUser from "./user/RegisterUser";
+import UserProfile from "./user/UserProfile";
+import { registerUser, logoutUser, getRegisteredUser } from "./user/user-service";
+import { AppState } from "./app-state";
 
 export default {
-  name: 'app',
+  name: "app",
+  data: () => {
+    return {
+      appState: AppState
+    };
+  },
   components: {
-    HelloWorld
+    RegisterUser,
+    UserProfile
+  },
+  methods: {
+    registerUser: user => {
+      registerUser(user);
+    },
+    logOutUser: () => {
+      logoutUser();
+    }
+  },
+  mounted: () => {
+    AppState.user = getRegisteredUser()
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
