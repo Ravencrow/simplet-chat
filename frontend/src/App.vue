@@ -8,8 +8,13 @@
 <script>
 import RegisterUser from "./user/RegisterUser";
 import UserProfile from "./user/UserProfile";
-import { registerUser, logoutUser, getRegisteredUser } from "./user/user-service";
+import {
+  registerUser,
+  logoutUser,
+  getRegisteredUser
+} from "./user/user-service";
 import { AppState } from "./app-state";
+import { createRoom } from "./chat/chat-service";
 
 export default {
   name: "app",
@@ -25,13 +30,12 @@ export default {
   methods: {
     registerUser: user => {
       registerUser(user);
+      createRoom(user);
     },
-    logOutUser: () => {
-      logoutUser();
-    }
+    logOutUser: logoutUser
   },
   mounted: () => {
-    AppState.user = getRegisteredUser()
+    AppState.user = getRegisteredUser();
   }
 };
 </script>
