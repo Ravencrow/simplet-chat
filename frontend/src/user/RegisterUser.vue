@@ -11,7 +11,7 @@
 <script>
 export default {
   name: "RegisterUser",
-  data: () => {
+  data: function() {
     return {
       userName: ""
     };

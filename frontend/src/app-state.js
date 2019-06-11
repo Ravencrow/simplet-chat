@@ -1,3 +1,4 @@
 export const AppState = {
-  user: null
+  user: null,
+  roomList: []
 }
