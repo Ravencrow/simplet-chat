@@ -1,7 +1,7 @@
 class ChatRoom:
     def __init__(self, name):
         self.name = name
-        self.messages = ['Mola', 'esto es de prueba', 'Olé ahí!']
+        self.messages = []
 
     def add_message(self, message):
         self.messages.append(message)

@@ -2,7 +2,7 @@
   <div id="app">
     <RegisterUser v-if="!appState.user" v-on:user-registered="registerUser"></RegisterUser>
     <UserProfile v-if="appState.user" v-bind:user="appState.user" v-on:log-out="logOutUser"></UserProfile>
-    <RoomList v-bind:room-list="appState.roomList"></RoomList>
+    <RoomList v-bind:room-list="appState.roomList" v-on:change-room="changeRoom"></RoomList>
     <Conversation v-bind:messages="appState.messages"></Conversation>
     <ChatForm v-on:send-message="sendMessage"></ChatForm>
   </div>
@@ -25,7 +25,8 @@ import {
   onRoomListReceived,
   onMessagesReceived,
   sendMessage,
-  onMessageReceived
+  onMessageReceived,
+  changeRoom
 } from "./chat/chat-service";
 
 export default {
@@ -64,6 +65,10 @@ export default {
       };
 
       sendMessage(newMessage);
+    },
+    changeRoom(room) {
+      changeRoom(room)
+      this.appState.selectedRoom = room
     }
   },
   mounted() {

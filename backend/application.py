@@ -22,6 +22,7 @@ def index():
 
 @socketio.on('message')
 def handle_message(data):
+    room_manager.get_room(data['room']).add_message(data['body'])
     send(data['body'], room=data['room'], broadcast=False)
 
 
@@ -35,8 +36,9 @@ def create_room(room):
     emit('messages', new_room.get_messages())
 
 @socketio.on('join')
-def _join_room(room):
-    join_room(room)
+def _join_room(room_name):
+    join_room(room_name)
+    emit('messages', room_manager.get_room(room_name).get_messages())
 
 if __name__ == '__main__':
     socketio.run(app)

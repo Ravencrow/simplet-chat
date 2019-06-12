@@ -1,7 +1,12 @@
 <template>
   <div class="room-list">
-   <h3>Room list:</h3> 
-    <div class="room" v-for="room in roomList" :key="room">{{ room }}</div>
+    <h3>Room list:</h3>
+    <div
+      class="room"
+      v-for="room in roomList"
+      :key="room"
+      v-on:click="$emit('change-room', room)"
+    >{{ room }}</div>
   </div>
 </template>
 
