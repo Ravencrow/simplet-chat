@@ -14,14 +14,9 @@ import UserProfile from "./user/UserProfile";
 import RoomList from "./chat/RoomList";
 import Conversation from "./chat/Conversation";
 import ChatForm from "./chat/ChatForm";
+import { registerUser, logoutUser } from "./user/user-service";
+import { AppState, changeState, loadState, clearState } from "./app-state";
 import {
-  registerUser,
-  logoutUser,
-  getRegisteredUser
-} from "./user/user-service";
-import { AppState } from "./app-state";
-import {
-  createRoom,
   onRoomListReceived,
   onMessagesReceived,
   sendMessage,
@@ -33,7 +28,7 @@ export default {
   name: "app",
   data: function() {
     return {
-      appState: AppState
+      appState: loadState() || AppState
     };
   },
   components: {
@@ -46,15 +41,15 @@ export default {
   methods: {
     registerUser(user) {
       registerUser(user);
-      createRoom(user);
-      this.appState.selectedRoom = user
+      changeRoom(user);
+      changeState("selectedRoom", user);
     },
     logOutUser() {
       logoutUser();
-      this.appState.roomList = [];
+      clearState();
     },
     updateRoomList(roomList) {
-      this.appState.roomList = roomList;
+      changeState("roomList", roomList);
     },
     sendMessage(message) {
       let newMessage = {
@@ -67,19 +62,20 @@ export default {
       sendMessage(newMessage);
     },
     changeRoom(room) {
-      changeRoom(room)
-      this.appState.selectedRoom = room
+      changeRoom(room);
+      changeState("selectedRoom", room);
     }
   },
   mounted() {
-    this.appState.user = getRegisteredUser();
     onRoomListReceived(this.updateRoomList);
     onMessagesReceived(roomMessages => {
-      this.appState.messages = roomMessages;
+      changeState("messages", roomMessages);
     });
     onMessageReceived(message => {
-      this.appState.messages.push(message)
-    })
+      changeState("messages", [...this.appState.messages, message]);
+    });
+    if (this.appState.user) registerUser(this.appState.user);
+    if (this.appState.selectedRoom) changeRoom(this.appState.selectedRoom);
   }
 };
 </script>

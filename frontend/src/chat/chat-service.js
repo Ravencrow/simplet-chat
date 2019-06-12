@@ -2,11 +2,6 @@ import openSocket from 'socket.io-client'
 
 const socket = openSocket('localhost:5000')
 
-export const createRoom = room => {
-  socket.emit('create', room)
-  socket.emit('join', room)
-}
-
 export const sendMessage = message => {
   socket.emit('message', message)
 }
