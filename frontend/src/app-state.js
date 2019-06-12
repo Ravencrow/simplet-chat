@@ -1,4 +1,6 @@
 export const AppState = {
   user: null,
-  roomList: []
+  roomList: [],
+  selectedRoom: null,
+  messages: []
 }

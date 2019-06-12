@@ -2,8 +2,10 @@ import openSocket from 'socket.io-client'
 
 const socket = openSocket('localhost:5000')
 
-export const createRoom = message => {
-  socket.emit('create', message)
+export const createRoom = room => {
+  socket.emit('create', room)
+  socket.emit('join', room)
+  sendMessage({body: 'Ostia pedrín!!!', room})
 }
 
 export const sendMessage = message => {
@@ -17,4 +19,8 @@ export const onRoomListReceived = callback => {
 
 export const onMessageReceived = callback => {
   socket.on('message', callback)
+}
+
+export const onMessagesReceived = callback => {
+  socket.on('messages', callback)
 }
