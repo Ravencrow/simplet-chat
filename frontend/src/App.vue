@@ -1,10 +1,19 @@
 <template>
   <div id="app">
     <RegisterUser v-if="!appState.user" v-on:user-registered="registerUser"></RegisterUser>
-    <UserProfile v-if="appState.user" v-bind:user="appState.user" v-on:log-out="logOutUser"></UserProfile>
-    <RoomList v-bind:room-list="appState.roomList" v-on:change-room="changeRoom"></RoomList>
-    <Conversation v-bind:messages="appState.messages"></Conversation>
-    <ChatForm v-on:send-message="sendMessage"></ChatForm>
+    <div class="left-menu">
+      <UserProfile v-if="appState.user" v-bind:user="appState.user" v-on:log-out="logOutUser"></UserProfile>
+      <RoomList
+        v-if="appState.user"
+        v-bind:room-list="appState.roomList"
+        v-bind:selected-room="appState.selectedRoom"
+        v-on:change-room="changeRoom"
+      ></RoomList>
+    </div>
+    <div class="chat-area">
+      <Conversation v-if="appState.user" v-bind:messages="appState.messages"></Conversation>
+      <ChatForm v-if="appState.user" v-on:send-message="sendMessage"></ChatForm>
+    </div>
   </div>
 </template>
 
@@ -81,4 +90,38 @@ export default {
 </script>
 
 <style>
+#app {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+}
+
+.left-menu {
+  display: flex;
+  flex: 0 0 150px;
+  flex-direction: column;
+}
+
+.chat-area {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.conversation {
+  flex: 1;
+}
+
+.char-form {
+  flex: 0 0 30px;
+} 
+
+.user-profile {
+  flex: 0 0 150px;
+}
+
+.room-list {
+  flex: 1;
+}
 </style>

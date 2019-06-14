@@ -18,7 +18,7 @@ const saveState = (state) => {
 
 export const loadState = () => {
   const loadedState = JSON.parse(localStorage.getItem(stateKey))
-  if (loadState) AppState = loadedState
+  if (loadedState) AppState = loadedState
   return AppState
 }
 

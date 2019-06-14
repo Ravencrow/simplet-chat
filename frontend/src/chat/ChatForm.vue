@@ -1,10 +1,14 @@
 <template>
   <div class="chat-form">
-    <md-field>
-      <label>Message</label>
-      <md-input v-model="message"></md-input>
-      <md-button v-on:click="sendMessage()">send</md-button>
-    </md-field>
+    <md-card>
+      <md-card-content>
+        <md-field>
+          <label>Message</label>
+          <md-input v-model="message" @keyup.enter.native="sendMessage"></md-input>
+          <md-button v-on:click="sendMessage" class="md-dense md-raised">send</md-button>
+        </md-field>
+      </md-card-content>
+    </md-card>
   </div>
 </template>
 

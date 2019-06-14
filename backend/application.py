@@ -23,8 +23,10 @@ def index():
 
 @socketio.on('message')
 def handle_message(data):
-    room_manager.get_room(data['room']).add_message(data['body'])
-    send(data['body'], room=data['room'], broadcast=False)
+    room_manager.get_room(data['room']).add_message(
+        data['user'], data['body'], data['timestamp'])
+    send({"body": data['body'], "author": data['user'],
+          "timestamp": data['timestamp']}, room=data['room'], broadcast=False)
 
 
 @socketio.on('join')

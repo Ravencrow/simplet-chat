@@ -3,8 +3,9 @@ class ChatRoom:
         self.name = name
         self.messages = []
 
-    def add_message(self, message):
-        self.messages.append(message)
+    def add_message(self, user, message, timestamp):
+        self.messages.append(
+            {"body": message, "author": user, "timestamp": timestamp})
         self.messages = self.messages[-100:]
 
     def get_messages(self):
